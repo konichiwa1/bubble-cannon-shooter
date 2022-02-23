@@ -73,6 +73,7 @@ function Ball(x, y, radius, theta, vel, color) {
 }
 
 let doAnimation = false;
+let paused = false;
 
 let balls=[];
 let angle=Math.PI/4;
@@ -158,6 +159,9 @@ function animate() {
         ctx.font = "20px Arial"
         ctx.fillText("Press Enter to Play Again", canvas.width/2-110, canvas.height/2+50);
         ctx=null; return;
+    }
+    if(paused) {
+        return;
     }
     window.requestAnimationFrame(animate);
     cntBall++;
@@ -335,6 +339,14 @@ window.addEventListener("keydown", (e)=>{
         ctx=canvas.getContext("2d");
         doAnimation=true;
         init();
+        animate();
+    }else if(e.keyCode==13) {
+        if(!paused) {
+            ctx.font = "40px Arial"
+            ctx.strokeStyle = "green"
+            ctx.strokeText("Enter to Resume", canvas.width/2-160, canvas.height/2);
+        }
+        paused = !paused;
         animate();
     }
 });
